@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speech To Text</title>
+</head>
+<body class="container pt-5 bg-dark">
+<div class="mt-4" id="div_language">
+</div>
+<h2 class="mt-4 text-light">Speech To Text; Click on Start and Speak</h2>
+<div class="p-3" style="border: 1px solid gray; height: 300px; border-radius: 8px;">
+    <span id="final" class="text-light"></span>
+    <span id="interim" class="text-secondary"></span>
+</div>
+<div class="mt-4">
+    <button class="btn btn-success" id="start">Start</button>
+    <button class="btn btn-danger" id="stop">Stop</button>
+    <button class="btn btn-danger" id="play">Play</button>
+<!--    <main class="w-50 mx-auto">-->
+<!--    <form class="bg-light border rounded mx-auto mt-5 p-3">-->
+    <h1 class="h2 text-center mt-2 mb-4">Homework 3</h1>
+    <h2 class="mt-4 text-light">Text to Speech; Enter Input and Click on Reply to listen;</h2>
+    <div class="form-group">
+        <label for="field1">Field 1</label>
+        <input type="text" class="form-control" id="field1" name="field1" />
+        <button class="btn btn-success" id="f1start">F1Start</button>
+        <button class="btn btn-danger" id="f1stop">F1Stop</button>
+    </div>
+    <div class="form-group">
+        <label for="field2">Field 2</label>
+        <input type="text" class="form-control" id="field2" name="field2" />
+        <button class="btn btn-success" id="f2start">F2Start</button>
+        <button class="btn btn-danger" id="f2stop">F2Stop</button>
+    </div>
+    <div class="form-group">
+        <label for="field3">Field 3</label>
+        <textarea class="form-control" id="field3" name="field3" rows="3"></textarea>
+        <button class="btn btn-success" id="f3start">F3Start</button>
+        <button class="btn btn-danger" id="f3stop">F3Stop</button>
+    </div>
+    <div class="mb-5">
+        <button id="reply" class="btn btn-success mt-5 me-3">Replay</button>
+    </div>
+<!--    </form>-->
+<!--    </main>-->
+</div>
+</body>
+<script>
+        let speechRecognition = new webkitSpeechRecognition();
+        let final_transcript = "";
+
+        speechRecognition.continuous = true;
+        speechRecognition.interimResults = true;
+        speechRecognition.lang = 'en-AU';
+
+        speechRecognition.onresult = (event) => {
+            let interim_transcript = "";
+
+
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    final_transcript += event.results[i][0].transcript;
+                } else {
+                    interim_transcript += event.results[i][0].transcript;
+                }
+            }
+            document.querySelector("#final").innerHTML = final_transcript;
+            document.querySelector("#interim").innerHTML = interim_transcript;
+        };
+
+        document.querySelector("#start").onclick = () => {
+            speechRecognition.start();
+        };
+        document.querySelector("#stop").onclick = () => {
+            speechRecognition.stop();
+        };
+
+        document.querySelector("#f1start").onclick = () => {
+            speechRecognition.start();
+        };
+
+        document.querySelector("#f1stop").onclick = () => {
+            document.getElementById('field1').value = final_transcript;
+            final_transcript = "";
+            speechRecognition.stop();
+    };
+    document.querySelector("#f2start").onclick = () => {
+          speechRecognition.start();
+     };
+
+    document.querySelector("#f2stop").onclick = () => {
+          document.getElementById('field2').value = final_transcript;
+            final_transcript = "";
+         speechRecognition.stop();
+    };
+    document.querySelector("#f3start").onclick = () => {
+        speechRecognition.start();
+    };
+
+    document.querySelector("#f3stop").onclick = () => {
+        document.getElementById('field3').value = final_transcript;
+        final_transcript = "";
+        speechRecognition.stop();
+    };
+
+        document.querySelector("#play").onclick = () => {
+
+            /////////text to voice;
+
+            let defspeech = new SpeechSynthesisUtterance();
+            defspeech.lang = "en";
+            let defvoices = [];
+            window.speechSynthesis.onvoiceschanged = () => {
+                defvoices = window.speechSynthesis.getVoices();
+                defspeech.voice = defvoices[2];
+            };
+            defspeech.text = final_transcript;
+            defspeech.volume = 1;
+            defspeech.rate = 0.75;
+            defspeech.pitch = 1;
+                window.speechSynthesis.speak(defspeech);
+            final_transcript = "";
+        };
+
+    let speech = new SpeechSynthesisUtterance();
+    speech.lang = "en";
+
+    let voices = [];
+    window.speechSynthesis.onvoiceschanged = () => {
+        voices = window.speechSynthesis.getVoices();
+        speech.voice = voices[2];
+    };
+
+    document.querySelector("#reply").addEventListener("click", () => {
+        speech.text = "Field1 is "
+        speech.text += document.querySelector("#field1").value;
+        speech.text += "Field2 is "
+        speech.text += document.querySelector("#field2").value;
+        speech.text += "Field3 is "
+        speech.text += document.querySelector("#field3").value;
+        speech.volume = 1;
+        speech.rate = 0.75;
+        speech.pitch = 1;
+        window.speechSynthesis.speak(speech);
+    });
+</script>
+</html>
