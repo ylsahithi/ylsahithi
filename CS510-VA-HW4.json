@@ -1,0 +1,277 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "flight ticket booking",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "ReceiveJourneyDetailsIntent",
+                    "slots": [
+                        {
+                            "name": "destination",
+                            "type": "AMAZON.City"
+                        },
+                        {
+                            "name": "month",
+                            "type": "AMAZON.Month"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.Ordinal"
+                        },
+                        {
+                            "name": "source",
+                            "type": "AMAZON.City"
+                        }
+                    ],
+                    "samples": [
+                        "book a ticket to {destination} on {month} {date}",
+                        "Plan my travel from {source} to {destination} on {month} {date}",
+                        "i want to go to {destination} on {month} {date}",
+                        "Find flights to {destination}",
+                        "what is the quickest flight from {source} to {destination} on {month} {date} ",
+                        "what is minimum charge for air travel from {source} to {destination} on {month} {date} ",
+                        "which airlines has cheapest flight from {source} to {destination} on {month} {date}",
+                        "Is there any cheapest flight from {source} to {destination} on {month} {date}",
+                        "will I get a flight ticket  from {source} to {destination} on {month} {date}",
+                        "which airlines provide cheapest flight from {source} to {destination} on {month} {date}",
+                        "when is the cheapest flight available from {source} to {destination} on {month} {date}",
+                        "what are the options to travel from {source} to {destination} on {month} {date} ",
+                        "tell me the details of cheapest flight from {source} to {destination} on {month} {date} ",
+                        "book me the cheapest flight from {source} to {destination} on {month} {date}",
+                        "Find the cheapest flight from {source} to {destination} on {month} {date}",
+                        "Give me the flight options from {source} to {destination} on {month} {date}",
+                        "I wish to go to {destination} on {month} {date} by flight",
+                        "How much does it costs for travel {source} to {destination} on {month} {date}",
+                        "Get me the details of cheapest flight from {source} to {destination} on {month} {date} ",
+                        "What is the cheapest flight from {source} to {destination} on {month} {date}",
+                        "to {destination} from {source} on {month} {date}",
+                        "from {source} to {destination} on {month} {date}",
+                        "I want to travel from {source} to {destination} on {month} {date}",
+                        "to {destination} on {month} {date} ",
+                        "I want to travel to {destination} on {month} {date}",
+                        "I want to go to {destination}",
+                        "{month} {date}",
+                        "{destination} {month} {date}"
+                    ]
+                },
+                {
+                    "name": "CaptureuserinputIntent",
+                    "slots": [
+                        {
+                            "name": "flightid",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "i will go with {flightid}",
+                        "i would choose {flightid}"
+                    ]
+                },
+                {
+                    "name": "RemindertravelIntent",
+                    "slots": [
+                        {
+                            "name": "bool",
+                            "type": "Userresponseforreminder"
+                        }
+                    ],
+                    "samples": [
+                        "remind me about my {bool} travel",
+                        "set a travel {bool}",
+                        "{bool} remind me about travel",
+                        "{bool}  I want to set a reminder"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "Userresponseforreminder",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "upcoming"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Nope"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yeah"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "reminder"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "next",
+                                "synonyms": [
+                                    "do that"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "No",
+                                "synonyms": [
+                                    "no"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Yes",
+                                "synonyms": [
+                                    "yes"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "ReceiveJourneyDetailsIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "destination",
+                            "type": "AMAZON.City",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.250155983850.1181523978215"
+                            }
+                        },
+                        {
+                            "name": "month",
+                            "type": "AMAZON.Month",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.250155983850.1196310064364"
+                            }
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.Ordinal",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.250155983850.1603949251196"
+                            }
+                        },
+                        {
+                            "name": "source",
+                            "type": "AMAZON.City",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1355851922120.493087928596"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "RemindertravelIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "bool",
+                            "type": "Userresponseforreminder",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.250155983850.1181523978215",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which City do you want to travel?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.250155983850.1196310064364",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which month you are planning to travel?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.250155983850.1603949251196",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "On which date you want to land?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1355851922120.493087928596",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Can you please tell me origin place of your travel?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.941352984004.233531251671",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which city travel details do you want"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1305485570405.473598713906",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Can you give response to set a reminder in yes or no form"
+                    }
+                ]
+            }
+        ]
+    }
+}
