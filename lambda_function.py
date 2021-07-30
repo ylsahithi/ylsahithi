@@ -63,15 +63,14 @@ class ReceiveJourneyDetailsIntentHandler(AbstractRequestHandler):
         next_travel = Date(current_year, month_as_index, int(date))
         diff_days = (next_travel - now_date).days
         if(diff_days > 0):
-            speak_output = "Let me find tickets for your travel from {origin} to {destination} on {month} {date}.".format(origin=origin, destination=destination, month=month, date=date)
+            speak_output = "Let me find tickets for your travel from {origin} to {destination} on {month} {date}. ".format(origin=origin, destination=destination, month=month, date=date)
         else:
             speak_output = " Date given is invalid "
             return (handler_input.response_builder.speak(speak_output)
                 # .ask("Re-enter your source and destination details")
                 .response)
         
-        url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/PDX-sky/JFK-sky/2021-09-09"
-        # .format(next_travel=next_travel)
+        url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/PDX-sky/JFK-sky/{next_travel}".format(next_travel=next_travel)
         headers = {
                     'x-rapidapi-key': "2f10781b51msh9b86969dac021aap1bcf53jsn67d9e956cf54",
                     'x-rapidapi-host': "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
@@ -83,7 +82,7 @@ class ReceiveJourneyDetailsIntentHandler(AbstractRequestHandler):
         travel_attributes = []
         num_results = len(res.get("Quotes"))
         if(num_results == 0):
-            return (handler_input.response_builder.speak("Looks like there are no flights on {month} {date}".format(month=month,date=date))
+            return (handler_input.response_builder.speak("Looks like there are no flights on {month} {date}. ".format(month=month,date=date))
                 # .ask("Re-enter your source and destination details")
                 .response)
         for idx, object in enumerate(res.get("Quotes")):
@@ -107,7 +106,7 @@ class ReceiveJourneyDetailsIntentHandler(AbstractRequestHandler):
                                 "CarrierIds" : Airlinesid,
                                 "Airportname": dest_Airportname
                              })
-	        speak_output = speak_output + "flight {Airlinesid} is a {str_ind} which costs a minimum of {price} dollars run by {Airlinesname} from {Airportname}. Pick a flight number you want to choose".format(Airlinesid=Airlinesid, str_ind=str_ind, price=price, Airlinesname=Airlinesname,Airportname=dest_Airportname)
+	        speak_output = speak_output + " flight {Airlinesid} is a {str_ind} which costs a minimum of {price} dollars run by {Airlinesname} from {Airportname}. Pick a flight number you want to choose".format(Airlinesid=Airlinesid, str_ind=str_ind, price=price, Airlinesname=Airlinesname,Airportname=dest_Airportname)
 	        attributes_manager.persistent_attributes = travel_attributes
 	        attributes_manager.save_persistent_attributes() 
         
@@ -127,12 +126,12 @@ class CaptureuserinputIntentHandler(AbstractRequestHandler):
         attributes_manager = handler_input.attributes_manager 
         attr = handler_input.attributes_manager.persistent_attributes
         flight_num = slots["flightid"].value
-        speak_buf = " You have chosen flight {flight_num}".format(flight_num=flight_num)
+        speak_buf = " You have chosen flight {flight_num}. ".format(flight_num=flight_num)
         for i in range(len(attr)):
             if (int(attr[i]['CarrierIds']) == int(flight_num)):
                 attributes_manager.persistent_attributes = attr
                 attributes_manager.save_persistent_attributes() 
-                speak_buf = speak_buf + " Your journey details are, CarrierId number {flight_num} run by {airlines} airlines on {month} {date} to {dest_Airportname} airport".format(flight_num=flight_num, airlines = attr[0]['airlines'], month= attr[0]['month'], date= attr[0]['date'], dest_Airportname=attr[0]['Airportname'])
+                speak_buf = speak_buf + " Your journey details are, CarrierId number {flight_num} run by {airlines} airlines on {month} {date} to {dest_Airportname} airport. Do you want to set a reminder to travel? ".format(flight_num=flight_num, airlines = attr[0]['airlines'], month= attr[0]['month'], date= attr[0]['date'], dest_Airportname=attr[0]['Airportname'])
             else:
                 speak_buf = speak_buf + " You have chosen wrong flight number . "
         return (
@@ -165,7 +164,7 @@ class RemindertravelIntentHandler(AbstractRequestHandler):
         next_travel = Date(current_year, month_as_index, int(date))
         diff_days = (next_travel - now_date).days
         if(diff_days > 0):
-            speak_output = "{bool} Travel reminder, it looks like there are {days} more days for your travel which is on {month} {date} to {destination_airport} {destination} from {origin}".format(bool=reminder_choice, days=diff_days, month=attr[0]['month'], date=attr[0]['date'],  destination_airport=attr[0]['Airportname'], destination=attr[0]['destination'], origin=attr[0]['origin'])
+            speak_output = " Travel reminder, it looks like there are {days} more days for your travel which is on {month} {date} to {destination_airport} {destination} from {origin}".format(bool=reminder_choice, days=diff_days, month=attr[0]['month'], date=attr[0]['date'],  destination_airport=attr[0]['Airportname'], destination=attr[0]['destination'], origin=attr[0]['origin'])
         elif(diff_days == 0):
             speak_output = " Today is your travel to {destination_airport} {destination} from {origin} by {flight_id}" .format(destination_airport=attr[0]['Airportname'],destination=attr[0]['destination'],origin=attr[0]['origin'],flight_id=attr[0]['CarrierIds'])
         else:
